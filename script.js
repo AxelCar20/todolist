@@ -1,52 +1,41 @@
-//Seleccionar elmentos del árbol de DOM
 
-//Saber cuando el usuario le da click al botón
+import checkComplete  from "./components/checkTask.js";
+import removeTask from "./components/deleteTask.js";
+
+//SE USA EL MÉTODO IMMEDIATELY INVOKEDE FUNTION EXPRESSION IIFE
+( () => {
 const btnCreate =  document.querySelector("[data-form-btn]");
-const inputText = document.querySelector("[data-form-input]");
+
+
 const createTask = (evento) =>{
     evento.preventDefault(); //EVENTO PARA QUE NO SE REFRESQUE LA PÁGINA
+
+    const inputText = document.querySelector("[data-form-input]");
     const value = inputText.value;
-    inputText.value = "";
+
     const list = document.querySelector("[data-ul-task]");
+    
     const task = document.createElement("li"); //SE RECIBE EL ELEMENTO QUE SE REQUIERE CREAR 
     task.classList.add("card");
-    //SE LLAMAN BACKTICKS 
-    //SE CREAN TEMPLATES QUE JS PERMITE
-    const content = `
-                    <div>
-                    <i class="far fa-check-square icon"></i>
-                    <span class="task"> ${value} </span>
-                    </div>
-                    <i class="fas fa-trash-alt trashIcon icon"></i>`
+
+
+    const taskContent = document.createElement("div");
+
+    const tittleTask = document.createElement("span");
+    tittleTask.classList.add("task");
+    tittleTask.innerText = value;
+
+    taskContent.appendChild(checkComplete());
+    taskContent.appendChild(tittleTask);
+
+    task.appendChild(taskContent);
+    task.appendChild(removeTask());
+    list.appendChild(task);
+
 
     inputText.value = "";
-
-    task.innerHTML = content;
-    list.appendChild(task);
-    //SE LE AGREGA CÓDIGO HTML
-
-    console.log(value);
 };
-/*
-<li class="card" data-li-task>      
-</li>*/
-            
-
-console.log(btnCreate);
-
-//PARA ESCUCHAR A NUESTRO EVENTO
-
-//RECIBE COMO PARÁMETROS EL EVENTO Y LA ACCIÓN A EJECUTAR
-/*
-btnCreate.addEventListener("click", function(evento){
-    evento.preventDefault(); //EVENTO PARA QUE NO SE REFRESQUE LA PÁGINA
-    console.log(inputText.value);
-});
-*/
-
-//ARROW FUNCTION -- FUNCIONES ANÓNIMAS
 
 btnCreate.addEventListener("click", createTask);
 
-
-
+})();
